@@ -1,5 +1,6 @@
-# Output directory
+# Output directories
 run/
+plot/
 
 # Python
 __pycache__/

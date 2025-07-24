@@ -1,1 +1,6 @@
 booz_xform
+numpy>=1.20.0
+matplotlib>=3.3.0
+xarray>=0.19.0
+netCDF4>=1.5.7
+h5netcdf>=0.11.0
