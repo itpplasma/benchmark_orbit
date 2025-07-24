@@ -14,8 +14,8 @@ except ImportError:
     verbose = True
     comm_size = 1
 
-boozmn_filename = '../booz_xform/boozmn_LandremanPaul2021_QA_lowres.nc'
-wout_filename = '../booz_xform/wout_LandremanPaul2021_QA_lowres.nc'
+boozmn_filename = '../booz_xform/boozmn_LandremanPaul2021_QA_reactorScale_lowres_reference.nc'
+wout_filename = '../booz_xform/wout_LandremanPaul2021_QA_reactorScale_lowres_reference.nc'
 order = 3
 
 ## Initial condition in VMEC coordinates
