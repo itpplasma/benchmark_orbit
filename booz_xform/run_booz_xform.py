@@ -1,7 +1,7 @@
 import booz_xform as bx
 
-wout_filename = 'wout_LandremanPaul2021_QA_lowres.nc'
-boozmn_filename = 'boozmn_LandremanPaul2021_QA_lowres.nc'
+wout_filename = 'wout_LandremanPaul2021_QA_reactorScale_lowres_reference.nc'
+boozmn_filename = 'boozmn_LandremanPaul2021_QA_reactorScale_lowres_reference.nc'
 mboz = 96
 nboz = 96
 
