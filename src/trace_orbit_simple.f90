@@ -1,4 +1,4 @@
-program trace_orbit_fixed
+program trace_orbit_simple
   use new_vmec_stuff_mod, only : netcdffile, multharm, ns_s, ns_tp
   use velo_mod, only : isw_field_type
   use util, only : pi, c, e_charge, p_mass, ev
@@ -144,7 +144,7 @@ program trace_orbit_fixed
   enddo
 
   ! Write output to NetCDF file (matching xarray format)
-  output_file = '../run/orbit_trace.nc'
+  output_file = '../run/trace_orbit_simple.nc'
 
   ! Create NetCDF file
   ierr = nf90_create(output_file, NF90_CLOBBER, ncid)

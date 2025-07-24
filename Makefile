@@ -26,10 +26,10 @@ build:
 	@echo "Building codes..."
 	$(MAKE) -C codes
 
-fortran: 
+fortran:
 	@echo "Building Fortran orbit tracer..."
 	@mkdir -p build
-	$(FC) $(FFLAGS) src/trace_orbit.f90 -o build/trace_orbit $(LDFLAGS)
+	$(FC) $(FFLAGS) src/trace_orbit_simple.f90 -o build/trace_orbit_simple $(LDFLAGS)
 
 run: build
 	@if [ ! -f "$(VMEC_FILE)" ]; then \
@@ -41,7 +41,7 @@ run: build
 		exit 1; \
 	fi
 	@echo "Running orbit trace with VMEC file: $(VMEC_FILE)"
-	python scripts/trace_orbit.py $(VMEC_FILE)
+	python scripts/trace_orbit_simple.py $(VMEC_FILE)
 
 run-fortran: fortran
 	@if [ ! -f "$(VMEC_FILE)" ]; then \
@@ -50,7 +50,7 @@ run-fortran: fortran
 		exit 1; \
 	fi
 	@echo "Running Fortran orbit trace with VMEC file: $(VMEC_FILE)"
-	cd build && ./trace_orbit ../$(VMEC_FILE)
+	cd build && ./trace_orbit_simple ../$(VMEC_FILE)
 
 plot:
 	@if [ ! -d "run" ] || [ -z "$$(ls -A run/*.nc 2>/dev/null)" ]; then \
@@ -65,7 +65,7 @@ clean:
 	@echo "Cleaning build artifacts..."
 	$(MAKE) -C codes clean
 	rm -rf run/* plot/*
-	rm -f build/trace_orbit build/orbit_trace_fortran.dat build/orbit_trace_fortran.nc
+	rm -f build/trace_orbit_simple
 
 help:
 	@echo "Benchmark Orbit Makefile"
