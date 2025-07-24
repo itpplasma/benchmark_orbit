@@ -212,4 +212,4 @@ program trace_orbit_simple
   write(*,*) '  Mu conservation: ', mu_arr(ntimstep) / mu_arr(1)
   write(*,*) '  NetCDF output written to: ', trim(output_file)
 
-end program trace_orbit_fixed
+end program trace_orbit_simple
