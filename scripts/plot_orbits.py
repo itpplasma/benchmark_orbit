@@ -20,7 +20,7 @@ def plot_orbit_views(ds, output_dir="plot", filename_prefix=None):
     Parameters:
     -----------
     ds : xarray.Dataset
-        Orbit data from trace_orbit.py
+        Orbit data from trace_orbit.py or Fortran tracer
     output_dir : str
         Directory to save plots
     filename_prefix : str
@@ -33,6 +33,15 @@ def plot_orbit_views(ds, output_dir="plot", filename_prefix=None):
     timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
     if filename_prefix is None:
         filename_prefix = f"orbit_plot_{timestamp}"
+    
+    # Check if we have cylindrical coordinates (R, Z)
+    has_cylindrical = 'R' in ds.data_vars and 'Z' in ds.data_vars
+    
+    if not has_cylindrical:
+        print("Warning: R and Z coordinates not found. Using flux coordinates for visualization.")
+        print("This is likely output from the Fortran tracer - creating flux coordinate plots only.")
+        create_flux_plots(ds, output_dir, filename_prefix)
+        return
     
     # Check if we have multiple orbits
     if 'orbit' in ds.dims:

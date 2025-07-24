@@ -47,7 +47,7 @@ pull-simple:
 build-simple:
 	@if [ -d "$(SIMPLE_DIR)" ]; then \
 		echo "Installing SIMPLE with pip..."; \
-		cd $(SIMPLE_DIR) && pip install -e .; \
+		cd $(SIMPLE_DIR) && pip install -e . --no-build-isolation; \
 	else \
 		echo "SIMPLE directory does not exist. Run 'make clone-simple' first."; \
 		exit 1; \
@@ -82,7 +82,7 @@ pull-firm3d:
 build-firm3d:
 	@if [ -d "$(FIRM3D_DIR)" ]; then \
 		echo "Installing firm3d with pip..."; \
-		cd $(FIRM3D_DIR) && pip install -e .; \
+		cd $(FIRM3D_DIR) && pip install -e . --no-build-isolation; \
 	else \
 		echo "firm3d directory does not exist. Run 'make clone-firm3d' first."; \
 		exit 1; \

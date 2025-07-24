@@ -26,7 +26,7 @@ build:
 	@echo "Building codes..."
 	$(MAKE) -C codes
 
-fortran: build
+fortran: 
 	@echo "Building Fortran orbit tracer..."
 	@mkdir -p build
 	$(FC) $(FFLAGS) src/trace_orbit.f90 -o build/trace_orbit $(LDFLAGS)
