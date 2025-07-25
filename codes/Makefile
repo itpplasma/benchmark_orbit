@@ -67,13 +67,13 @@ clone-firm3d:
 		echo "firm3d directory already exists, pulling latest changes..."; \
 		$(MAKE) pull-firm3d; \
 	else \
-		echo "Cloning firm3d repository..."; \
-		git clone $(FIRM3D_REPO) $(FIRM3D_DIR); \
+		echo "Cloning firm3d repository with submodules..."; \
+		git clone --recurse-submodules $(FIRM3D_REPO) $(FIRM3D_DIR); \
 	fi
 
 pull-firm3d:
 	@if [ -d "$(FIRM3D_DIR)" ]; then \
-		cd $(FIRM3D_DIR) && git pull; \
+		cd $(FIRM3D_DIR) && git pull --recurse-submodules; \
 	else \
 		echo "firm3d directory does not exist. Run 'make clone-firm3d' first."; \
 		exit 1; \

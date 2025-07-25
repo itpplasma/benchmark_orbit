@@ -29,7 +29,7 @@ def read_initial_conditions(ic_dir="initial_condition"):
 
     initial_conditions = []
     for i in range(len(s_values)):
-        ic = np.array([s_values[i], theta_values[i], phi_values[i], 1.0])
+        ic = np.array([s_values[i], theta_values[i], phi_values[i], 0.0])  # v_par/v = 0 for trapped particle
         initial_conditions.append(ic)
 
     return initial_conditions
@@ -100,8 +100,8 @@ def trace_orbit(vmec_file, initial_conditions, output_dir="run", trace_time=1e-3
     
     os.makedirs(output_dir, exist_ok=True)
 
-    # Use the matching boozmn file
-    boozmn_file = "codes/firm3d/tests/test_files/boozmn_LandremanPaul2021_QA_lowres.nc"
+    # Use the reactor scale boozmn file as requested
+    boozmn_file = "booz_xform/boozmn_LandremanPaul2021_QA_reactorScale_lowres_reference.nc"
     print(f"Using Boozer file: {boozmn_file}")
     
     # Load field data
@@ -127,8 +127,8 @@ def trace_orbit(vmec_file, initial_conditions, output_dir="run", trace_time=1e-3
         # Get initial magnetic field
         B0, R0, Z0, iota0 = eval_boozer_field(ic[0], ic[1], ic[2], field_data)
         
-        # Initial parallel velocity (all velocity is parallel)
-        v_par = v_total * ic[3]
+        # Initial parallel velocity (zero for trapped particle)
+        v_par = v_total * ic[3]  # ic[3] = 0.0 for trapped particle
         
         # Simple orbit integration in Boozer coordinates
         # We'll just follow field lines for now
