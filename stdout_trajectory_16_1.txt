@@ -1,0 +1,2 @@
+Elapsed time for tracing:  51.09200716018677
+Elapsed time for plotting:  32.194108963012695
