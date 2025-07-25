@@ -59,7 +59,7 @@ run-firm3d: build
 		exit 1; \
 	fi
 	@echo "Running firm3d orbit trace with VMEC file: $(VMEC_FILE)"
-	python scripts/trace_orbit_firm3d.py $(VMEC_FILE)
+	python scripts/trace_orbit_firm3d_boozer.py $(VMEC_FILE)
 
 plot:
 	@if [ ! -d "run" ] || [ -z "$$(ls -A run/*.nc 2>/dev/null)" ]; then \

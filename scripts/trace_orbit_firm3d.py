@@ -12,7 +12,7 @@ import numpy as np
 import xarray as xr
 
 # Add firm3d to path if needed
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "codes", "firm3d"))
+sys.path.append(os.path.join(os.path.dirname(__file__), "..", "codes", "firm3d", "src"))
 
 from simsopt.field.boozermagneticfield import (
     BoozerRadialInterpolant,
@@ -36,17 +36,17 @@ def read_initial_conditions(ic_dir="initial_condition"):
     Returns:
     --------
     initial_conditions : list of arrays
-        Each array contains [s, theta, phi, v_par/v]
+        Each array contains [s, vartheta_booz, zeta_booz, v_par/v]
     """
-    # Read coordinate files
+    # Read coordinate files - use Boozer coordinates for firm3d
     s_file = os.path.join(ic_dir, "s_booz.txt")
-    theta_file = os.path.join(ic_dir, "theta_vmec.txt")
-    phi_file = os.path.join(ic_dir, "phi_vmec.txt")
+    theta_file = os.path.join(ic_dir, "vartheta_booz.txt")  # Boozer poloidal angle
+    phi_file = os.path.join(ic_dir, "zeta_booz.txt")  # Boozer toroidal angle
 
     # Check if files exist
     if not all(os.path.exists(f) for f in [s_file, theta_file, phi_file]):
         print(f"Warning: Initial condition files not found in {ic_dir}")
-        print("Using default values: s=0.5, theta=0.5, phi=0.5")
+        print("Using default values: s=0.5, vartheta=0.5, zeta=0.5")
         return [np.array([0.5, 0.5, 0.5, 1.0])]
 
     # Read values from files
@@ -67,7 +67,7 @@ def read_initial_conditions(ic_dir="initial_condition"):
     # Create initial conditions array
     initial_conditions = []
     for i in range(n_orbits):
-        # s, theta, phi, v_par/v (purely parallel motion like SIMPLE)
+        # s, vartheta_booz, zeta_booz, v_par/v (purely parallel motion like SIMPLE)
         ic = np.array([s_values[i], theta_values[i], phi_values[i], 1.0])
         initial_conditions.append(ic)
 
@@ -93,17 +93,11 @@ def trace_orbit(vmec_file, initial_conditions, output_dir="run", trace_time=1e-3
     # Create output directory if it doesn't exist
     os.makedirs(output_dir, exist_ok=True)
 
-    # Create boozmn file from VMEC if needed
-    boozmn_file = os.path.join(output_dir, "boozmn_temp.nc")
+    # Use the matching boozmn file from firm3d test files
+    # This corresponds to the LandremanPaul2021 QA equilibrium
+    boozmn_file = "codes/firm3d/tests/test_files/boozmn_LandremanPaul2021_QA_lowres.nc"
     
-    # Convert VMEC to Boozer coordinates
-    from simsopt.mhd import Vmec, Boozer
-    vmec = Vmec(vmec_file)
-    booz = Boozer(vmec, mpol=32, ntor=32)
-    booz.run()
-    booz.save(boozmn_file)
-    
-    print(f"Created Boozer file: {boozmn_file}")
+    print(f"Using Boozer file: {boozmn_file}")
 
     # Setup field interpolation (similar to firm3d example)
     order = 3  # Order for radial interpolation
@@ -142,7 +136,7 @@ def trace_orbit(vmec_file, initial_conditions, output_dir="run", trace_time=1e-3
 
     for orbit_idx, ic in enumerate(initial_conditions):
         print(f"\nOrbit {orbit_idx + 1}/{n_orbits}:")
-        print(f"  Initial conditions: s={ic[0]:.3f}, theta={ic[1]:.3f}, phi={ic[2]:.3f}")
+        print(f"  Initial conditions: s={ic[0]:.3f}, vartheta_booz={ic[1]:.3f}, zeta_booz={ic[2]:.3f}")
 
         # Setup initial position (s, theta, phi in Boozer coordinates)
         points = np.zeros((1, 3))
@@ -333,10 +327,6 @@ def trace_orbit(vmec_file, initial_conditions, output_dir="run", trace_time=1e-3
     
     ds.to_netcdf(output_file)
     print(f"\nSaved orbit data to: {output_file}")
-
-    # Clean up temporary boozmn file
-    if os.path.exists(boozmn_file):
-        os.remove(boozmn_file)
 
     return ds
 
