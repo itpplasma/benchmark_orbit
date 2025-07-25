@@ -1,0 +1,9 @@
+&config
+ntestpart = 10000
+ntimstep = 10001      ! number of time steps (marcosteps) per trace down time
+npoiper2 = 256	      ! points per period for integrator step
+trace_time = 1e-3
+contr_pp = -1e10     ! Trace all passing passing
+startmode = 2        ! Read start file
+output_orbits_macrostep = .True. ! Output orbit positions to fort.9XXXX
+/
