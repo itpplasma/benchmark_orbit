@@ -1,7 +1,7 @@
 .PHONY: all build run plot clean help fortran run-fortran
 
 # Default VMEC file - can be overridden with make run VMEC_FILE=path/to/wout.nc
-VMEC_FILE ?= wout.nc
+VMEC_FILE ?= booz_xform/wout_LandremanPaul2021_QH_reactorScale_lowres_reference.nc
 
 # Fortran compiler and flags for SIMPLE
 FC = gfortran

@@ -9,7 +9,7 @@ tracy = simple.Tracer()
 
 simple_main.init_field(
     tracy,
-    "booz_xform/wout_LandremanPaul2021_QA_reactorScale_lowres_reference.nc",
+    "booz_xform/wout_LandremanPaul2021_QH_reactorScale_lowres_reference.nc",
     3,
     3,
     3,
@@ -18,7 +18,7 @@ simple_main.init_field(
 params.params_init()
 
 # %% Initial conditions
-z0_vmec = np.array([0.8, 1.0, 0.2, 1.0, 0.5])  # s, th, ph, v/v_th, v_par/v
+z0_vmec = np.array([0.5, 0.5, 0.5, 1.0, 0.0])  # s, th, ph, v/v_th, v_par/v
 z0_can = z0_vmec.copy()  # s, th_c, ph_c, v/v_th, v_par/v
 
 z0_can[1:3] = coord.vmec_to_can(z0_vmec[0], z0_vmec[1], z0_vmec[2])
