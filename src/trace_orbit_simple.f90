@@ -7,7 +7,7 @@ program trace_orbit_simple
   use params, only : params_init, rt0, v0, dtaumin, npoiper2, trace_time, ntimstep, &
                      ntau, dtau, relerr, integmode
   use simple, only : Tracer, init_sympl
-  use orbit_symplectic, only : orbit_timestep_sympl_expl_impl_euler
+  use orbit_symplectic, only : orbit_timestep_sympl_expl_impl_euler, orbit_timestep_sympl_midpoint
   use magfie_sub, only : init_magfie, VMEC
   use netcdf
 
@@ -42,7 +42,7 @@ program trace_orbit_simple
   ns_s = 5
   ns_tp = 5
   multharm = 5
-  isw_field_type = 0  ! Boozer coordinates
+  isw_field_type = 2  ! Boozer coordinates
   trace_time = 1d-3   ! 0.001 seconds (10x shorter)
   ntimstep = 10001    ! From SIMPLE examples
   npoiper2 = 256
@@ -120,7 +120,8 @@ program trace_orbit_simple
     ! Inner loop over ntau steps (like macrostep)
     do ktau = 1, ntau
       ! Call the same integration routine as SIMPLE
-      call orbit_timestep_sympl_expl_impl_euler(tracy%si, tracy%f, ierr)
+      !call orbit_timestep_sympl_expl_impl_euler(tracy%si, tracy%f, ierr)
+      call orbit_timestep_sympl_midpoint(tracy%si, tracy%f, ierr)
       if (ierr /= 0) then
         write(*,*) 'Error in orbit integration at step:', kt-1, 'ktau:', ktau
         exit

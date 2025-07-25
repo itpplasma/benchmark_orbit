@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """
-Proper firm3d orbit tracing using trace_particles_boozer with full guiding center physics.
-Based on the firm3d example.
+Trace particle orbits using firm3d with proper implementation based on the example.
 """
 
 import os
@@ -20,12 +19,12 @@ from simsopt.field.boozermagneticfield import (
     InterpolatedBoozerField,
 )
 from simsopt.field.tracing import (
-    MaxToroidalFluxStoppingCriterion,
     trace_particles_boozer,
+    MaxToroidalFluxStoppingCriterion,
 )
 from simsopt.util.constants import (
-    ALPHA_PARTICLE_CHARGE,
     ALPHA_PARTICLE_MASS,
+    ALPHA_PARTICLE_CHARGE,
     FUSION_ALPHA_PARTICLE_ENERGY,
 )
 
@@ -45,20 +44,20 @@ def read_initial_conditions(ic_dir="initial_condition"):
     return s_values[0], theta_values[0], phi_values[0]
 
 
-def trace_orbit(vmec_file, output_dir="run", trace_time=1e-5):
-    """Trace particle orbits using firm3d with full guiding center physics."""
+def trace_orbit(vmec_file, output_dir="run", trace_time=1e-4):
+    """Trace particle orbits using firm3d."""
     
     os.makedirs(output_dir, exist_ok=True)
 
     # Read initial conditions
     s_init, theta_init, phi_init = read_initial_conditions()
-    print(f"Initial conditions: s={s_init:.3f}, vartheta={theta_init:.3f}, zeta={phi_init:.3f}")
+    print(f"Initial conditions: s={s_init:.3f}, theta_booz={theta_init:.3f}, zeta_booz={phi_init:.3f}")
 
     # Use the reactor scale boozmn file
     boozmn_filename = "booz_xform/boozmn_LandremanPaul2021_QA_reactorScale_lowres_reference.nc"
     print(f"Using Boozer file: {boozmn_filename}")
     
-    # Parameters from firm3d example
+    # Parameters from example
     order = 3  # Order for radial interpolation
     reltol = 1e-8  # Relative tolerance for the ODE solver
     abstol = 1e-8  # Absolute tolerance for the ODE solver
@@ -98,6 +97,7 @@ def trace_orbit(vmec_file, output_dir="run", trace_time=1e-5):
     print(f"Total velocity: {vpar0:.3e} m/s")
     
     # Trace particle in Boozer coordinates
+    print("Starting orbit integration...")
     traj_booz, res_hits = trace_particles_boozer(
         field,
         points,
