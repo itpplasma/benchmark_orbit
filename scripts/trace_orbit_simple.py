@@ -59,8 +59,8 @@ def read_initial_conditions(ic_dir="initial_condition"):
     initial_conditions = []
     for i in range(n_orbits):
         # s, theta, phi, v/v_th, v_par/v
-        # Using v/v_th = 1.0, v_par/v = 1.0 (purely parallel motion)
-        ic = np.array([s_values[i], theta_values[i], phi_values[i], 1.0, 1.0])
+        # Using v/v_th = 1.0, v_par/v = 0.0 (trapped particle - purely perpendicular motion)
+        ic = np.array([s_values[i], theta_values[i], phi_values[i], 1.0, 0.0])
         initial_conditions.append(ic)
 
     return initial_conditions
