@@ -52,6 +52,15 @@ run-fortran: fortran
 	@echo "Running Fortran orbit trace with VMEC file: $(VMEC_FILE)"
 	cd build && ./trace_orbit_simple ../$(VMEC_FILE)
 
+run-firm3d: build
+	@if [ ! -f "$(VMEC_FILE)" ]; then \
+		echo "Error: VMEC file '$(VMEC_FILE)' not found!"; \
+		echo "Usage: make run-firm3d VMEC_FILE=path/to/wout.nc"; \
+		exit 1; \
+	fi
+	@echo "Running firm3d orbit trace with VMEC file: $(VMEC_FILE)"
+	python scripts/trace_orbit_firm3d.py $(VMEC_FILE)
+
 plot:
 	@if [ ! -d "run" ] || [ -z "$$(ls -A run/*.nc 2>/dev/null)" ]; then \
 		echo "No orbit data found in run/ directory!"; \
@@ -60,6 +69,15 @@ plot:
 	fi
 	@echo "Creating orbit plots..."
 	python scripts/plot_orbits.py
+
+plot-comparison:
+	@if [ ! -d "run" ] || [ -z "$$(ls -A run/trace_orbit_simple_*.nc 2>/dev/null)" ] || [ -z "$$(ls -A run/trace_orbit_firm3d_*.nc 2>/dev/null)" ]; then \
+		echo "Missing orbit data for comparison!"; \
+		echo "Run both 'make run' and 'make run-firm3d' first."; \
+		exit 1; \
+	fi
+	@echo "Creating comparison plots..."
+	python scripts/plot_comparison.py
 
 clean:
 	@echo "Cleaning build artifacts..."
@@ -73,9 +91,12 @@ help:
 	@echo ""
 	@echo "Targets:"
 	@echo "  make build          - Build all codes (SIMPLE and firm3d)"
-	@echo "  make run            - Run orbit tracing script (requires VMEC file)"
-	@echo "  make run VMEC_FILE=path/to/wout.nc  - Run with specific VMEC file"
+	@echo "  make run            - Run SIMPLE orbit tracing (requires VMEC file)"
+	@echo "  make run VMEC_FILE=path/to/wout.nc  - Run SIMPLE with specific VMEC file"
+	@echo "  make run-firm3d     - Run firm3d orbit tracing (requires VMEC file)"
+	@echo "  make run-firm3d VMEC_FILE=path/to/wout.nc - Run firm3d with specific VMEC file"
 	@echo "  make plot           - Create orbit visualization plots from latest run"
+	@echo "  make plot-comparison - Create comparison plots between SIMPLE and firm3d"
 	@echo "  make clean          - Clean all build artifacts, run outputs, and plots"
 	@echo "  make help           - Show this help message"
 	@echo ""
