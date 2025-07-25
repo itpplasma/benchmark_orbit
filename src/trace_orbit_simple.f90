@@ -3,6 +3,7 @@ program trace_orbit_simple
   use velo_mod, only : isw_field_type
   use util, only : pi, c, e_charge, p_mass, ev
   use simple_main, only : init_field
+  use get_can_sub, only : vmec_to_can
   use params, only : params_init, rt0, v0, dtaumin, npoiper2, trace_time, ntimstep, &
                      ntau, dtau, relerr, integmode
   use simple, only : Tracer, init_sympl
@@ -84,14 +85,18 @@ program trace_orbit_simple
   read(12,*) z0_vmec(3)
   close(12)
   z0_vmec(4) = 1.0d0      ! v/v_th
-  z0_vmec(5) = 0.5d0      ! v_par/v
+  z0_vmec(5) = 0.0d0      ! v_par/v
 
   ! Convert to canonical coordinates (ref_to_can equivalent)
-  z0_can = z0_vmec
+  z0_can(1) = z0_vmec(1)
+  call vmec_to_can(z0_vmec(1), z0_vmec(2), z0_vmec(3), z0_can(2), z0_can(3))
+  z0_can(4) = z0_vmec(4)
+  z0_can(5) = z0_vmec(5)
   ! Note: SIMPLE has ref_to_can conversion here
   z = z0_can  ! Working coordinates
 
   write(*,*) '  Initial conditions: s=', z(1), ', theta=', z(2), ', phi=', z(3)
+  write(*,*) '    p0=', z(4), ', vpar=', z(5)
 
   ! Step 6: Initialize symplectic integrator AFTER all setup (like trace_orbit)
   call init_sympl(tracy%si, tracy%f, z, dtaumin, dtaumin, relerr, integmode)

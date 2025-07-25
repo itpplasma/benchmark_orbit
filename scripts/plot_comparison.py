@@ -80,7 +80,8 @@ def plot_comparison(simple_file, firm3d_file, output_dir="plot"):
     # 4. Magnetic moment conservation
     ax4 = plt.subplot(2, 3, 4)
     ax4.plot(ds_simple.time * 1e6, ds_simple.mu / ds_simple.mu[0], 'b-', label='SIMPLE')
-    ax4.plot(ds_firm3d.time * 1e6, ds_firm3d.mu / ds_firm3d.mu[0], 'r--', label='firm3d')
+    if 'mu' in ds_firm3d:
+        ax4.plot(ds_firm3d.time * 1e6, ds_firm3d.mu / ds_firm3d.mu[0], 'r--', label='firm3d')
     ax4.set_xlabel('Time [μs]')
     ax4.set_ylabel('μ/μ₀')
     ax4.set_title('Magnetic Moment Conservation')
@@ -154,8 +155,8 @@ def plot_comparison(simple_file, firm3d_file, output_dir="plot"):
           f"theta={ds_simple.attrs.get('initial_theta', 'N/A'):.3f}, "
           f"phi={ds_simple.attrs.get('initial_phi', 'N/A'):.3f}")
     print(f"  firm3d: s={ds_firm3d.attrs.get('initial_s', 'N/A'):.3f}, "
-          f"theta={ds_firm3d.attrs.get('initial_theta', 'N/A'):.3f}, "
-          f"phi={ds_firm3d.attrs.get('initial_phi', 'N/A'):.3f}")
+          f"theta_booz={ds_firm3d.attrs.get('initial_theta_booz', 'N/A'):.3f}, "
+          f"phi_booz={ds_firm3d.attrs.get('initial_phi_booz', 'N/A'):.3f}")
     
     # Conservation properties
     print("\nConservation Properties:")

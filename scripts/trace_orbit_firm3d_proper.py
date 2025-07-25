@@ -45,7 +45,7 @@ def read_initial_conditions(ic_dir="initial_condition"):
     return s_values[0], theta_values[0], phi_values[0]
 
 
-def trace_orbit(vmec_file, output_dir="run", trace_time=1e-3):
+def trace_orbit(vmec_file, output_dir="run", trace_time=1e-4):
     """Trace particle orbits using firm3d with full guiding center physics."""
     
     os.makedirs(output_dir, exist_ok=True)

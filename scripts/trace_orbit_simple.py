@@ -125,7 +125,7 @@ def trace_orbit(vmec_file, initial_conditions, output_dir="run", trace_time=1e-3
         z0_can[1:3] = coord.vmec_to_can(z0_vmec[0], z0_vmec[1], z0_vmec[2])
 
         # Use SIMPLE's approach: fixed number of timesteps (exactly like example.py)
-        nt = 10000  # Same as SIMPLE example
+        nt = 10001  # Same as SIMPLE example
 
         print(f"  Orbit {orbit_idx + 1}: {nt} timesteps, dtaumin: {params.dtaumin:.2e}")
         print(f"  B = {tracy.f.bmod:.3f} T")
