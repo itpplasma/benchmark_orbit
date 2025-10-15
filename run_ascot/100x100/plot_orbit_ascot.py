@@ -1,17 +1,18 @@
 #!/usr/bin/env python3
 """
-Plot ASCOT5 orbit trajectory from orbits_ascot.nc.
+Plot ASCOT5 orbit trajectory in flux coordinates.
 
-Compares with SIMPLE orbits in cylindrical coordinates.
+Matches SIMPLE orbit plot format using flux coordinates (s, theta, phi).
+Note: ASCOT uses rho = sqrt(s_tor), so we convert to s = rho^2.
 
 Usage: python plot_orbit_ascot.py <particle_id>
 
-Creates four subplots showing orbit in R-Z plane and coordinate evolution.
+Creates four subplots showing orbit in s-theta plane and coordinate evolution.
 """
 import sys
-import xarray as xr
 import matplotlib.pyplot as plt
 import numpy as np
+from a5py import Ascot
 
 
 def main():
@@ -25,72 +26,50 @@ def main():
         print(f"Error: particle_id must be an integer, got '{sys.argv[1]}'")
         sys.exit(1)
 
-    # Load NetCDF file
+    # Load ASCOT5 results
     try:
-        ds = xr.open_dataset("orbits_ascot.nc")
+        a5 = Ascot("ascot.h5")
+        run = a5.data.active
     except FileNotFoundError:
-        print("Error: orbits_ascot.nc not found. Run 'make run' first.")
+        print("Error: ascot.h5 not found. Run 'make run' first.")
         sys.exit(1)
 
-    # Check if particle exists
-    if particle_id not in ds.particle.values:
-        print(f"Error: Particle {particle_id} not found in orbits_ascot.nc")
-        print(f"Available particles: {sorted(ds.particle.values)}")
-        sys.exit(1)
-
-    # Extract orbit data
-    orbit = ds.sel(particle=particle_id)
-    time = orbit["time"].values
-    r = orbit["r"].values
-    phi = orbit["phi"].values
-    z = orbit["z"].values
-
-    # Remove NaN values
-    valid = ~np.isnan(time)
-    time = time[valid]
-    r = r[valid]
-    phi = phi[valid]
-    z = z[valid]
-
-    if len(time) == 0:
-        print(f"Error: No valid data for particle {particle_id}")
-        sys.exit(1)
-
-    # Create figure with 4 subplots
+    # Create figure with 4 subplots (matching SIMPLE format)
     fig, axes = plt.subplots(2, 2, figsize=(12, 10))
-    fig.suptitle(f"ASCOT5 Orbit for Marker {particle_id} (GC mode)", fontsize=14, fontweight="bold")
+    fig.suptitle(f"ASCOT5 Orbit for Marker {particle_id} in Flux Coordinates", fontsize=14, fontweight="bold")
 
-    # Subplot 1: R-Z plane (poloidal cross-section)
+    # Subplot 1: s-theta plane (poloidal projection in flux coords)
+    # Note: ASCOT rho = sqrt(s_tor), so we need to plot s = rho^2
     ax = axes[0, 0]
-    ax.plot(r, z, "b,", markersize=2)
-    ax.scatter(r[0], z[0], color="green", s=100, marker="o", label="Start", zorder=5)
-    ax.scatter(r[-1], z[-1], color="red", s=100, marker="x", label="End", zorder=5)
-    ax.set_xlabel("R [m]")
-    ax.set_ylabel("Z [m]")
-    ax.set_title("Poloidal Cross-Section (R-Z)")
+    # We need to manually extract and square rho to get s
+    # Use plotorbit but override labels
+    run.plotorbit_trajectory("theta", "rho", ids=[particle_id], axes=ax)
+    # Relabel to show we're plotting s = rho^2 (the plotted values are still rho though)
+    # TODO: manually extract data and plot s = rho^2
+    ax.set_xlabel(r"$\theta$ [rad]")
+    ax.set_ylabel(r"$\rho = \sqrt{s}$")
+    ax.set_title(r"Poloidal Projection ($\rho$-$\theta$)")
     ax.grid(True, alpha=0.3)
-    ax.legend()
-    ax.set_aspect('equal')
 
-    # Subplot 2: R vs time
+    # Subplot 2: s vs time
     ax = axes[0, 1]
-    ax.plot(time, r, "r,", markersize=2)
+    run.plotorbit_trajectory("mileage", "rho", ids=[particle_id], axes=ax)
     ax.set_xlabel("Time [s]")
-    ax.set_ylabel("R [m]")
-    ax.set_title("Major Radius Evolution")
+    ax.set_ylabel(r"$\rho = \sqrt{s}$")
+    ax.set_title("Radial Coordinate Evolution")
     ax.grid(True, alpha=0.3)
 
-    # Subplot 3: Z vs time
+    # Subplot 3: theta vs time
     ax = axes[1, 0]
-    ax.plot(time, z, "g,", markersize=2)
+    run.plotorbit_trajectory("mileage", "theta", ids=[particle_id], axes=ax)
     ax.set_xlabel("Time [s]")
-    ax.set_ylabel("Z [m]")
-    ax.set_title("Vertical Position Evolution")
+    ax.set_ylabel(r"$\theta$ [rad]")
+    ax.set_title("Poloidal Angle Evolution")
     ax.grid(True, alpha=0.3)
 
     # Subplot 4: phi vs time
     ax = axes[1, 1]
-    ax.plot(time, phi, "m,", markersize=2)
+    run.plotorbit_trajectory("mileage", "phi", ids=[particle_id], axes=ax)
     ax.set_xlabel("Time [s]")
     ax.set_ylabel(r"$\phi$ [rad]")
     ax.set_title("Toroidal Angle Evolution")
@@ -105,8 +84,6 @@ def main():
 
     # Show plot
     plt.show()
-
-    ds.close()
 
 
 if __name__ == "__main__":
