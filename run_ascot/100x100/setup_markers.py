@@ -101,7 +101,10 @@ def main():
     mrk["energy"][:] = ENERGY
 
     # Set pitch angle from SIMPLE's vthnorm
-    mrk["pitch"][:] = vmec_coords['vthnorm']
+    # Note: ASCOT5 GC equations have issues at exactly pitch=0
+    # Add small epsilon to avoid singularity (use 0.001 for numerical safety)
+    pitch_array = vmec_coords['vthnorm'] + 0.001  # Add epsilon to all values
+    mrk["pitch"][:] = pitch_array
 
     # Set random gyroangle (not specified in SIMPLE)
     mrk["zeta"][:] = 2*np.pi * np.random.rand(n_markers) * unyt.rad
@@ -111,6 +114,7 @@ def main():
     mrk["weight"][:] = (POWER / (n_markers * mrk["energy"])).to("particles/s")
 
     print(f"\n6. Writing {n_markers} markers to HDF5...")
+    print(f"   Pitch values: min={mrk['pitch'].min():.2e}, max={mrk['pitch'].max():.2e}")
     a5.data.create_input(
         "gc",
         **mrk,
