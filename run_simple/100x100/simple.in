@@ -1,5 +1,5 @@
 &config
-netcdffile = "../../booz_xform/wout_LandremanPaul2021_QH_reactorScale_lowres_reference.nc"
+netcdffile = "wout.nc"
 ntestpart = 10000
 ntimstep = 10001      ! number of time steps (marcosteps) per trace down time
 npoiper2 = 256	      ! points per period for integrator step
