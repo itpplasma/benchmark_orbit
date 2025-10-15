@@ -18,6 +18,7 @@ import subprocess
 import os
 from a5py import Ascot
 from a5py.ascot5io.options import Opt
+from a5py.templates.importdata import ImportData
 
 # Configuration
 H5_FILE = "ascot.h5"
@@ -42,14 +43,69 @@ def main():
     # Check for required inputs
     if not hasattr(a5.data, 'bfield') or a5.data.bfield.active is None:
         raise ValueError("No magnetic field found. Run 'make setup' first.")
-    if not hasattr(a5.data, 'marker_gc') or a5.data.marker_gc.active is None:
+    if not hasattr(a5.data, 'marker') or a5.data.marker.active is None:
         raise ValueError("No markers found. Run 'make setup_mark' first.")
 
     print(f"   Using field: {a5.data.bfield.active.get_desc()}")
-    print(f"   Using markers: {a5.data.marker_gc.active.get_desc()}")
+    print(f"   Using markers: {a5.data.marker.active.get_desc()}")
+
+    # Create wall if needed
+    if not hasattr(a5.data, 'wall') or a5.data.wall.active is None:
+        print(f"\n2. Creating 3D wall from VMEC LCFS...")
+        vmec_data = ImportData.vmec_field(
+            "wout.nc",
+            phimin=0, phimax=360, nphi=73,
+            ntheta=120, nr=100, nz=100,
+            psipad=0.0, extrapolate=False
+        )
+        rlcfs = vmec_data["rlcfs"]
+        zlcfs = vmec_data["zlcfs"]
+
+        # Convert LCFS to 3D wall triangles
+        ntheta, nphi = rlcfs.shape
+        phi = np.linspace(0, 2*np.pi, nphi)
+
+        x = np.zeros((ntheta, nphi))
+        y = np.zeros((ntheta, nphi))
+        for i in range(ntheta):
+            for j in range(nphi):
+                x[i, j] = rlcfs[i, j] * np.cos(phi[j])
+                y[i, j] = rlcfs[i, j] * np.sin(phi[j])
+
+        triangles = []
+        for i in range(ntheta):
+            for j in range(nphi - 1):
+                i_next = (i + 1) % ntheta
+                triangles.append([
+                    [x[i,j], x[i_next,j], x[i_next,j+1]],
+                    [y[i,j], y[i_next,j], y[i_next,j+1]],
+                    [zlcfs[i,j], zlcfs[i_next,j], zlcfs[i_next,j+1]]
+                ])
+                triangles.append([
+                    [x[i,j], x[i_next,j+1], x[i,j+1]],
+                    [y[i,j], y[i_next,j+1], y[i,j+1]],
+                    [zlcfs[i,j], zlcfs[i_next,j+1], zlcfs[i,j+1]]
+                ])
+
+        triangles = np.array(triangles)
+        x1x2x3 = triangles[:, 0, :]
+        y1y2y3 = triangles[:, 1, :]
+        z1z2z3 = triangles[:, 2, :]
+
+        a5.data.create_input(
+            "wall_3D",
+            nelements=x1x2x3.shape[0],
+            x1x2x3=x1x2x3,
+            y1y2y3=y1y2y3,
+            z1z2z3=z1z2z3,
+            desc="VMEC LCFS wall"
+        )
+        print(f"   Created wall with {x1x2x3.shape[0]} triangles")
+    else:
+        print(f"\n2. Using existing wall: {a5.data.wall.active.get_desc()}")
 
     # Create missing inputs
-    print(f"\n2. Creating simulation inputs...")
+    print(f"\n3. Creating simulation inputs...")
 
     # Plasma (dummy - not used in GC simulation without collisions)
     a5.data.create_input("plasma flat")
@@ -66,7 +122,7 @@ def main():
     print(f"   Created: plasma, E-field, neutrals, Boozer, MHD, asigma")
 
     # Set up simulation options
-    print(f"\n3. Configuring simulation options...")
+    print(f"\n4. Configuring simulation options...")
     print(f"   Simulation time: {SIM_TIME} s (same as SIMPLE)")
 
     opt = Opt.get_default()
@@ -80,7 +136,7 @@ def main():
         "ENDCOND_MAX_MILEAGE": SIM_TIME,  # 1 ms physical time (same as SIMPLE)
         "ENDCOND_CPUTIMELIM": 1,
         "ENDCOND_MAX_CPUTIME": 3600.0,  # 1 hour CPU time max
-        "ENDCOND_WALLHIT": 0,  # Don't stop on wall hit
+        "ENDCOND_WALLHIT": 0,  # Don't stop on wall hit (wall required but not used)
         "ENDCOND_RHOLIM": 1,  # Enable rho limits
         "ENDCOND_MAX_RHO": 1.5,  # Stop well outside LCFS
 
@@ -100,7 +156,7 @@ def main():
     print(f"   Options configured")
 
     # Find ascot5_main executable
-    print(f"\n4. Finding ascot5_main executable...")
+    print(f"\n5. Finding ascot5_main executable...")
     ascot5_paths = [
         os.path.expandvars("$CODE/ascot5/build/ascot5_main"),
         "/home/ert/code/ascot5/build/ascot5_main",
@@ -128,7 +184,7 @@ def main():
     print(f"   Using: {ascot5_main}")
 
     # Run simulation
-    print(f"\n5. Running orbit tracing simulation...")
+    print(f"\n6. Running orbit tracing simulation...")
     print(f"   This will take several minutes for 10,000 markers...")
     print(f"   (Output is live from ascot5_main)")
 
@@ -142,7 +198,7 @@ def main():
         print(f"\nSimulation failed with return code {result.returncode}")
         return
 
-    print(f"\n6. Simulation completed successfully!")
+    print(f"\n7. Simulation completed successfully!")
     print(f"   Results saved in: {H5_FILE}")
 
     print("\n" + "=" * 60)

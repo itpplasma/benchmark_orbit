@@ -15,7 +15,7 @@ import xarray as xr
 from a5py import Ascot
 
 # Configuration
-RESULTS_FILE = "orbits.h5"
+RESULTS_FILE = "ascot.h5"
 OUTPUT_NC = "orbits_ascot.nc"
 
 
@@ -32,14 +32,13 @@ def main():
     print(f"\n1. Opening ASCOT5 results: {RESULTS_FILE}")
     a5 = Ascot(RESULTS_FILE)
 
-    # Get simulation data
+    # Get active run
     print(f"\n2. Accessing orbit data...")
     try:
-        inistate = a5.results.orbits.initial
-        endstate = a5.results.orbits.final
-        marker_ids = a5.results.orbits.list()
+        run = a5.data.active
+        marker_ids = run.getorbit_list()
 
-        print(f"   Found {len(marker_ids)} markers")
+        print(f"   Found {len(marker_ids)} markers with orbit data")
     except Exception as e:
         print(f"   Error accessing orbit data: {e}")
         print(f"   This may indicate the simulation didn't complete properly")
@@ -54,17 +53,17 @@ def main():
     for marker_id in marker_ids:
         try:
             # Extract trajectory quantities
-            time = a5.results.orbits.get(
-                inistate, endstate, 'mileage', ids=marker_id
+            time = run.getorbit(
+                marker_id, 'mileage', endcond=False
             )
-            r = a5.results.orbits.get(
-                inistate, endstate, 'r', ids=marker_id
+            r = run.getorbit(
+                marker_id, 'r', endcond=False
             )
-            phi = a5.results.orbits.get(
-                inistate, endstate, 'phi', ids=marker_id
+            phi = run.getorbit(
+                marker_id, 'phi', endcond=False
             )
-            z = a5.results.orbits.get(
-                inistate, endstate, 'z', ids=marker_id
+            z = run.getorbit(
+                marker_id, 'z', endcond=False
             )
 
             if time is not None and len(time) > 0:
