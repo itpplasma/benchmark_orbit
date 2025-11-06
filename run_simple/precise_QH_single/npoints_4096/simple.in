@@ -1,0 +1,10 @@
+&config
+netcdffile = "../../../booz_xform/wout_LandremanPaul2021_QH_reactorScale_lowres_reference.nc"
+ntestpart = 2
+ntimstep = 10001      ! number of time steps (marcosteps) per trace down time
+npoiper2 = 4096	      ! points per period for integrator step
+trace_time = 1e-3
+contr_pp = -1e10     ! Trace all passing passing
+startmode = 2        ! Read start file
+output_orbits_macrostep = .True. ! Output orbit positions to fort.9XXXX
+/

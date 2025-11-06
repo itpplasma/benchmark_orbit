@@ -1,0 +1,23 @@
+Time to set up field:  1126.3827183246613  seconds
+Running firm3d with tol = 1e-10 , tmax = 0.001 , resolution = 96
+Time for integration:  1.1288063526153564  seconds
+Time to set up field:  1125.6970283985138  seconds
+Running firm3d with tol = 1e-10 , tmax = 0.001 , resolution = 96
+Time for integration:  1.2164990901947021  seconds
+Time to set up field:  1120.720220565796  seconds
+Running firm3d with tol = 1e-10 , tmax = 0.001 , resolution = 96
+Time for integration:  1.1924943923950195  seconds
+Time to set up field:  1140.009789466858  seconds
+Running firm3d with tol = 1e-10 , tmax = 0.001 , resolution = 96
+Time for integration:  1.109140157699585  seconds
+Time to set up field:  1931.3823325634003  seconds
+Running firm3d with tol = 1e-10 , tmax = 0.001 , resolution = 96
+Time for integration:  2.1919798851013184  seconds
+Time to set up field:  1913.7574932575226  seconds
+Running firm3d with tol = 1e-10 , tmax = 0.001 , resolution = 96
+Time for integration:  1.836920976638794  seconds
+Time to set up field:  1922.9246492385864  seconds
+Running firm3d with tol = 1e-10 , tmax = 0.001 , resolution = 96
+Time to set up field:  1118.9535686969757  seconds
+Running firm3d with tol = 1e-10 , tmax = 0.001 , resolution = 96
+Time for integration:  1.1300415992736816  seconds
