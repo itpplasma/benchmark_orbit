@@ -1,0 +1,3 @@
+Elapsed time for tracing =  127.40046167373657
+Elapsed time for tracing =  125.64060068130493
+Elapsed time for tracing =  120.52165126800537
