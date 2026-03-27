@@ -7,17 +7,23 @@ VMEC_FILE ?= booz_xform/wout_LandremanPaul2021_QH_reactorScale_lowres_reference.
 FC = gfortran
 SIMPLE_DIR = codes/SIMPLE
 SIMPLE_BUILD = $(SIMPLE_DIR)/build
-SIMPLE_INCLUDE = -I$(SIMPLE_BUILD)/include -I$(SIMPLE_BUILD)/libneo/include -I/opt/homebrew/include
+SIMPLE_LIBNEO_BUILD ?= $(shell find $(SIMPLE_BUILD) -name 'libneo.a' -print -quit 2>/dev/null | sed 's#/libneo.a$$##')
+SIMPLE_HDF5_TOOLS_LIB ?= $(shell find $(SIMPLE_BUILD) -name 'libhdf5_tools.a' -print -quit 2>/dev/null)
+NETCDF_FFLAGS ?= $(shell nf-config --fflags 2>/dev/null)
+NETCDF_FLIBS ?= $(shell nf-config --flibs 2>/dev/null)
+HOMEBREW_INCLUDE := $(if $(wildcard /opt/homebrew/include),-I/opt/homebrew/include)
+HOMEBREW_LIBDIRS := $(foreach dir,/opt/homebrew/opt/netcdf-fortran/lib /opt/homebrew/opt/netcdf/lib /opt/homebrew/opt/hdf5/lib /opt/homebrew/opt/openblas/lib,$(if $(wildcard $(dir)),-L$(dir)))
+SIMPLE_INCLUDE = -I$(SIMPLE_BUILD)/include -I$(SIMPLE_LIBNEO_BUILD)/include $(NETCDF_FFLAGS) $(HOMEBREW_INCLUDE)
 SIMPLE_LIBS = $(SIMPLE_BUILD)/src/libsimple.a \
-              $(SIMPLE_BUILD)/libneo/libneo.a \
-              $(SIMPLE_BUILD)/libneo/src/field/libneo_field.a \
-              $(SIMPLE_BUILD)/libneo/src/contrib/libCONTRIB.a \
-              $(SIMPLE_BUILD)/libneo/src/contrib/librkf45.a \
-              $(SIMPLE_BUILD)/libneo/src/hdf5_tools/libhdf5_tools.a
+              $(SIMPLE_LIBNEO_BUILD)/libneo.a \
+              $(SIMPLE_LIBNEO_BUILD)/src/field/libneo_field.a \
+              $(SIMPLE_LIBNEO_BUILD)/src/contrib/libCONTRIB.a \
+              $(SIMPLE_LIBNEO_BUILD)/src/interpolate/libinterpolate.a \
+              $(SIMPLE_LIBNEO_BUILD)/src/odeint/libodeint.a \
+              $(SIMPLE_HDF5_TOOLS_LIB)
 FFLAGS = $(SIMPLE_INCLUDE) -fopenmp -O2 -g
-LDFLAGS = $(SIMPLE_LIBS) -L/opt/homebrew/opt/netcdf-fortran/lib -L/opt/homebrew/opt/netcdf/lib \
-          -L/opt/homebrew/opt/hdf5/lib -L/opt/homebrew/opt/openblas/lib \
-          -lnetcdff -lnetcdf -lhdf5_fortran -lhdf5_hl_fortran -lhdf5 -lhdf5_hl \
+LDFLAGS = $(SIMPLE_LIBS) $(NETCDF_FLIBS) $(HOMEBREW_LIBDIRS) \
+          -lhdf5_fortran -lhdf5_hl_fortran -lhdf5 -lhdf5_hl \
           -lopenblas -lgomp
 
 all: build
@@ -28,6 +34,16 @@ build:
 
 fortran:
 	@echo "Building Fortran orbit tracer..."
+	@if [ -z "$(SIMPLE_LIBNEO_BUILD)" ] || [ ! -f "$(SIMPLE_LIBNEO_BUILD)/libneo.a" ]; then \
+		echo "Error: libneo.a not found under $(SIMPLE_BUILD)"; \
+		echo "Override SIMPLE_LIBNEO_BUILD=/path/to/libneo-build if needed."; \
+		exit 1; \
+	fi
+	@if [ -z "$(SIMPLE_HDF5_TOOLS_LIB)" ] || [ ! -f "$(SIMPLE_HDF5_TOOLS_LIB)" ]; then \
+		echo "Error: libhdf5_tools.a not found under $(SIMPLE_BUILD)"; \
+		echo "Override SIMPLE_HDF5_TOOLS_LIB=/path/to/libhdf5_tools.a if needed."; \
+		exit 1; \
+	fi
 	@mkdir -p build
 	$(FC) $(FFLAGS) src/trace_orbit_simple.f90 -o build/trace_orbit_simple $(LDFLAGS)
 
