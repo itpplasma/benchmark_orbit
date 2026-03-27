@@ -6,7 +6,7 @@ program trace_orbit_simple
   use get_can_sub, only : vmec_to_can
   use params, only : params_init, rt0, v0, dtaumin, npoiper2, trace_time, ntimstep, &
                      ntau, dtau, relerr, integmode
-  use simple, only : Tracer, init_sympl
+  use simple, only : tracer_t, init_sympl
   use orbit_symplectic, only : orbit_timestep_sympl_expl_impl_euler, orbit_timestep_sympl_midpoint
   use magfie_sub, only : init_magfie, VMEC
   use netcdf
@@ -14,7 +14,7 @@ program trace_orbit_simple
   implicit none
 
   ! Variables
-  type(Tracer) :: tracy
+  type(tracer_t) :: tracy
   double precision, dimension(5) :: z0_vmec, z0_can, z
   character(256) :: vmec_file, output_file
   integer :: kt, ierr, ktau
