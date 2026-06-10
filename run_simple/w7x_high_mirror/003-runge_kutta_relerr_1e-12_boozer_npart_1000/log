@@ -1,0 +1,34 @@
+SIMPLE version v1.5.0-40-g2e07f0e-dirty
+INFO: Timing system initialized
+  Clock rate (ticks per second):   1000000000
+  Resolution per tick: 1.00E-09 seconds
+  Maximum time before wraparound: 9.22E+09 seconds
+INFO: Command line parsing completed       0.000 s (Total:        0.000 s)
+INFO: Configuration reading completed       0.000 s (Total:        0.000 s)
+ Splining VMEC data: ns_A =            5   ns_s =            3   ns_tp =            3
+ VMEC ns =          501  m_max =           11  n_max =           60
+ R0 =    548.54006694012446       cm, fper =    1.2566370614359159     
+ volume =    26468207.905138452       cm^3,  B_00 =    27141.523469418647       G
+INFO: VMEC initialization completed       6.602 s (Total:        6.602 s)
+INFO: Reference coordinate system initialization completed       0.000 s (Total:        6.602 s)
+INFO: STL wall initialization completed       0.000 s (Total:        6.602 s)
+INFO: Field from file loading completed       0.000 s (Total:        6.602 s)
+ Transforming to Boozer coordinates
+ B_r is not computed
+ done
+INFO: Canonical field initialization completed      38.213 s (Total:       44.815 s)
+INFO: Field initialization completed       0.000 s (Total:       44.815 s)
+INFO: Parameter initialization completed       0.000 s (Total:       44.815 s)
+ tau:    12948.658387771653        6.7300719271162439        4.3286687693168431E-014        1924
+ v0 =    1294736352.1932876     
+INFO: Parameter printing completed       0.000 s (Total:       44.815 s)
+INFO: VMEC magnetic field initialization completed       0.000 s (Total:       44.816 s)
+ bmod00 =    27515.495634840921      bmin =    23984.952988407294      bmax =    31891.003982171995     
+INFO: Starting surface initialization completed       6.570 s (Total:       51.385 s)
+INFO: Particle sampling completed       0.003 s (Total:       51.389 s)
+INFO: Field type initialization completed       0.000 s (Total:       51.389 s)
+INFO: Counter initialization completed       0.000 s (Total:       51.389 s)
+INFO: Parallel particle tracing completed    4066.725 s (Total:     4118.114 s)
+INFO: Statistics normalization completed       0.000 s (Total:     4118.114 s)
+ Total field evaluations:                     0
+INFO: Output writing completed       0.027 s (Total:     4118.141 s)
