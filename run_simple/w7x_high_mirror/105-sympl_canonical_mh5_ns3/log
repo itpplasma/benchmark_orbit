@@ -1,0 +1,54 @@
+SIMPLE version v1.5.0-74-gabf6ca9
+INFO: Timing system initialized
+  Clock rate (ticks per second):   1000000000
+  Resolution per tick: 1.00E-09 seconds
+  Maximum time before wraparound: 9.22E+09 seconds
+INFO: Command line parsing completed       0.000 s (Total:        0.000 s)
+INFO: Configuration reading completed       0.000 s (Total:        0.000 s)
+ Splining VMEC data: ns_A =            5   ns_s =            3   ns_tp =            3
+ VMEC ns =          501  m_max =           11  n_max =           60
+ R0 =    548.54006694012446       cm, fper =    1.2566370614359159     
+ volume =    26468207.905137394       cm^3,  B_00 =    27141.523469425578       G
+INFO: VMEC initialization completed       4.600 s (Total:        4.601 s)
+INFO: Reference coordinate system initialization completed       0.002 s (Total:        4.602 s)
+INFO: STL wall initialization completed       0.000 s (Total:        4.602 s)
+INFO: Field from file loading completed       0.001 s (Total:        4.603 s)
+INFO: Canonical field initialization completed      17.568 s (Total:       22.171 s)
+INFO: Field initialization completed       0.000 s (Total:       22.171 s)
+INFO: Parameter initialization completed       0.000 s (Total:       22.171 s)
+ tau:    12960.323845778654        3.3654437407890558        7.5478613698257505E-014        3851
+ v0 =    1294736352.1932876     
+INFO: Parameter printing completed       0.000 s (Total:       22.171 s)
+INFO: VMEC magnetic field initialization completed       0.001 s (Total:       22.172 s)
+ bmod00 =    27515.495634843352      bmin =    23984.952988416331      bmax =    31891.003982507878     
+INFO: Starting surface initialization completed       3.127 s (Total:       25.298 s)
+INFO: Particle sampling completed       0.002 s (Total:       25.300 s)
+INFO: Field type initialization completed       0.000 s (Total:       25.300 s)
+INFO: Counter initialization completed       0.000 s (Total:       25.300 s)
+ [progress]   5.70%  57/1000  t=11.9s  eta=196.2s newton1_maxit=41 r_negative=27
+ [progress]   9.80%  98/1000  t=22.3s  eta=205.3s newton1_maxit=90 r_negative=63
+ [progress]  17.30%  173/1000  t=33.6s  eta=160.6s newton1_maxit=101 r_negative=69
+ [progress]  24.00%  240/1000  t=44.6s  eta=141.3s newton1_maxit=121 r_negative=84
+ [progress]  27.40%  274/1000  t=54.6s  eta=144.7s newton1_maxit=151 r_negative=104
+ [progress]  33.50%  335/1000  t=65.4s  eta=129.9s newton1_maxit=159 r_negative=106
+ WARNING: Newton iteration for theta did not converge
+   s =  0.27391711623716886      , vartheta =   8946.3386297287234      , varphi =   12635.813379144536     
+   Final theta =   8946.2562230195108      , deltheta =  -1.7464551449327724E-012
+ WARNING: Newton iteration failed in rhs_cancoord
+ [progress]  40.30%  403/1000  t=76.1s  eta=112.8s newton1_maxit=201 r_negative=140
+ [progress]  46.40%  464/1000  t=86.8s  eta=100.3s newton1_maxit=242 r_negative=170
+ [progress]  51.10%  511/1000  t=96.9s  eta=92.7s newton1_maxit=262 r_negative=187
+ [progress]  57.10%  571/1000  t=107.1s  eta=80.5s newton1_maxit=289 r_negative=208
+ [progress]  62.90%  629/1000  t=117.2s  eta=69.1s newton1_maxit=306 r_negative=222
+ [progress]  69.40%  694/1000  t=127.2s  eta=56.1s newton1_maxit=349 r_negative=254
+ [progress]  74.30%  743/1000  t=137.6s  eta=47.6s newton1_maxit=380 r_negative=280
+ [progress]  80.30%  803/1000  t=148.2s  eta=36.4s newton1_maxit=413 r_negative=306
+ [progress]  85.40%  854/1000  t=158.4s  eta=27.1s newton1_maxit=441 r_negative=329
+ [progress]  88.60%  886/1000  t=168.8s  eta=21.7s newton1_maxit=446 r_negative=334
+ [progress]  90.90%  909/1000  t=180.2s  eta=18.0s newton1_maxit=448 r_negative=336
+ [progress]  95.80%  958/1000  t=194.0s  eta=8.5s newton1_maxit=463 r_negative=347
+ [progress]  98.10%  981/1000  t=206.8s  eta=4.0s newton1_maxit=478 r_negative=361
+ [progress]  99.30%  993/1000  t=222.1s  eta=1.6s newton1_maxit=478 r_negative=361
+INFO: Parallel particle tracing completed     230.752 s (Total:      256.052 s)
+ Total field evaluations:            3936082160
+INFO: Output writing completed       0.006 s (Total:      256.058 s)

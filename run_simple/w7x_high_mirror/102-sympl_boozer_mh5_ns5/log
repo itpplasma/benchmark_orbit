@@ -1,0 +1,49 @@
+SIMPLE version v1.5.0-74-gabf6ca9
+INFO: Timing system initialized
+  Clock rate (ticks per second):   1000000000
+  Resolution per tick: 1.00E-09 seconds
+  Maximum time before wraparound: 9.22E+09 seconds
+INFO: Command line parsing completed       0.000 s (Total:        0.000 s)
+INFO: Configuration reading completed       0.000 s (Total:        0.000 s)
+ Splining VMEC data: ns_A =            5   ns_s =            5   ns_tp =            5
+ VMEC ns =          501  m_max =           11  n_max =           60
+ R0 =    548.54006694012446       cm, fper =    1.2566370614359159     
+ volume =    26468223.973366432       cm^3,  B_00 =    27138.841912841384       G
+INFO: VMEC initialization completed       7.838 s (Total:        7.838 s)
+INFO: Reference coordinate system initialization completed       0.002 s (Total:        7.840 s)
+INFO: STL wall initialization completed       0.000 s (Total:        7.840 s)
+INFO: Field from file loading completed       0.001 s (Total:        7.841 s)
+ Transforming to Boozer coordinates
+ B_r is not computed
+ done
+INFO: Canonical field initialization completed      42.565 s (Total:       50.406 s)
+INFO: Field initialization completed       0.000 s (Total:       50.406 s)
+INFO: Parameter initialization completed       0.000 s (Total:       50.406 s)
+ tau:    12960.323845778654        3.3654437407890558        7.5478613698257505E-014        3851
+ v0 =    1294736352.1932876     
+INFO: Parameter printing completed       0.000 s (Total:       50.406 s)
+INFO: VMEC magnetic field initialization completed       0.001 s (Total:       50.407 s)
+ bmod00 =    27515.489146084750      bmin =    23985.036803030682      bmax =    31891.306443618105     
+INFO: Starting surface initialization completed       6.103 s (Total:       56.509 s)
+INFO: Particle sampling completed       0.002 s (Total:       56.511 s)
+INFO: Field type initialization completed       0.000 s (Total:       56.511 s)
+INFO: Counter initialization completed       0.000 s (Total:       56.511 s)
+ [progress]   6.60%  66/1000  t=10.3s  eta=145.5s newton1_maxit=28 r_negative=25
+ [progress]  12.60%  126/1000  t=20.4s  eta=141.6s newton1_maxit=65 r_negative=51
+ [progress]  19.30%  193/1000  t=30.6s  eta=127.8s newton1_maxit=109 r_negative=82
+ [progress]  25.80%  258/1000  t=41.1s  eta=118.2s newton1_maxit=160 r_negative=119
+ [progress]  33.10%  331/1000  t=51.1s  eta=103.3s newton1_maxit=186 r_negative=137
+ [progress]  39.90%  399/1000  t=61.3s  eta=92.3s newton1_maxit=204 r_negative=147
+ [progress]  45.90%  459/1000  t=71.3s  eta=84.0s newton1_maxit=232 r_negative=170
+ [progress]  53.30%  533/1000  t=81.4s  eta=71.3s newton1_maxit=268 r_negative=198
+ [progress]  60.30%  603/1000  t=91.5s  eta=60.2s newton1_maxit=302 r_negative=228
+ [progress]  65.90%  659/1000  t=101.7s  eta=52.6s newton1_maxit=362 r_negative=270
+ [progress]  73.20%  732/1000  t=111.9s  eta=41.0s newton1_maxit=381 r_negative=284
+ [progress]  80.30%  803/1000  t=122.6s  eta=30.1s newton1_maxit=413 r_negative=306
+ [progress]  86.20%  862/1000  t=132.6s  eta=21.2s newton1_maxit=439 r_negative=323
+ [progress]  93.10%  931/1000  t=143.0s  eta=10.6s newton1_maxit=462 r_negative=341
+ [progress]  96.60%  966/1000  t=153.4s  eta=5.4s newton1_maxit=487 r_negative=358
+ [progress]  99.50%  995/1000  t=164.6s  eta=.8s newton1_maxit=498 r_negative=367
+INFO: Parallel particle tracing completed     166.805 s (Total:      223.316 s)
+ Total field evaluations:            3955185285
+INFO: Output writing completed       0.005 s (Total:      223.322 s)

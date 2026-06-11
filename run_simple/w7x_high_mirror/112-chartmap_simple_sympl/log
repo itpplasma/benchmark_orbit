@@ -1,0 +1,47 @@
+SIMPLE version v1.5.0-74-gabf6ca9
+INFO: Timing system initialized
+  Clock rate (ticks per second):   1000000000
+  Resolution per tick: 1.00E-09 seconds
+  Maximum time before wraparound: 9.22E+09 seconds
+INFO: Command line parsing completed       0.000 s (Total:        0.000 s)
+INFO: Configuration reading completed       0.000 s (Total:        0.000 s)
+INFO: Reference coordinate system initialization completed      10.837 s (Total:       10.837 s)
+INFO: STL wall initialization completed       0.000 s (Total:       10.838 s)
+ Loaded Boozer chartmap field from chartmap_simple_mh5_ns3.nc
+   nfp=           5  ns=         501  ntheta=          56  nphi=         301
+   torflux=  -31830988.618379235     
+INFO: Boozer chartmap field loading completed      22.419 s (Total:       33.257 s)
+ Loaded Boozer splines from chartmap: chartmap_simple_mh5_ns3.nc
+   nfp=           5  ns=         501  ntheta_field=          56  nphi_field=         301
+   torflux=  -31830988.618379235     
+INFO: Canonical field initialization completed      10.592 s (Total:       43.849 s)
+INFO: Field initialization completed       0.161 s (Total:       44.010 s)
+INFO: Parameter initialization completed       0.000 s (Total:       44.010 s)
+ tau:    12960.323845778654        3.4350182469596220        2.0685268160919104E-015        3773
+ v0 =    1294736352.1932876     
+INFO: Parameter printing completed       0.000 s (Total:       44.010 s)
+INFO: Boozer magfie initialization completed       0.001 s (Total:       44.011 s)
+ bmod00 =    27868.136763121718      bmin =    23884.141351206254      bmax =    32988.380036963143     
+INFO: Starting surface initialization completed       1.410 s (Total:       45.421 s)
+INFO: Particle sampling completed       0.002 s (Total:       45.423 s)
+INFO: Counter initialization completed       0.000 s (Total:       45.423 s)
+ [progress]   6.00%  60/1000  t=10.2s  eta=160.2s newton1_maxit=34 r_negative=29
+ [progress]  12.10%  121/1000  t=20.7s  eta=150.6s newton1_maxit=107 r_negative=97
+ [progress]  18.80%  188/1000  t=30.8s  eta=133.2s newton1_maxit=121 r_negative=111
+ [progress]  25.60%  256/1000  t=40.9s  eta=118.9s newton1_maxit=204 r_negative=172
+ [progress]  32.60%  326/1000  t=50.9s  eta=105.3s newton1_maxit=242 r_negative=208
+ [progress]  38.80%  388/1000  t=61.0s  eta=96.2s newton1_maxit=253 r_negative=219
+ [progress]  46.80%  468/1000  t=71.1s  eta=80.8s newton1_maxit=299 r_negative=259
+ [progress]  54.10%  541/1000  t=81.2s  eta=68.9s newton1_maxit=346 r_negative=295
+ [progress]  59.50%  595/1000  t=91.3s  eta=62.1s newton1_maxit=356 r_negative=304
+ [progress]  65.50%  655/1000  t=101.4s  eta=53.4s newton1_maxit=413 r_negative=353
+ [progress]  70.90%  709/1000  t=111.5s  eta=45.8s newton1_maxit=462 r_negative=373
+ [progress]  78.70%  787/1000  t=121.6s  eta=32.9s newton1_maxit=489 r_negative=398
+ [progress]  84.40%  844/1000  t=131.6s  eta=24.3s newton1_maxit=551 r_negative=452
+ [progress]  90.50%  905/1000  t=142.1s  eta=14.9s newton1_maxit=585 r_negative=485
+ [progress]  95.10%  951/1000  t=154.1s  eta=7.9s newton1_maxit=612 r_negative=510
+ [progress]  98.30%  983/1000  t=166.0s  eta=2.9s newton1_maxit=631 r_negative=528
+ [progress]  99.50%  995/1000  t=178.2s  eta=.9s newton1_maxit=631 r_negative=528
+INFO: Parallel particle tracing completed     185.268 s (Total:      230.691 s)
+ Total field evaluations:            4424139649
+INFO: Output writing completed       0.005 s (Total:      230.696 s)
