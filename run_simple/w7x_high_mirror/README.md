@@ -104,3 +104,14 @@ nboz = 64) on the shared wout, converted with SIMPLE
 from `export_boozer_chartmap_tool.x`. The .nc files are not committed
 (165 MB boozmn, 38 and 266 MB chartmaps). `plot_issue370_comparison.py`
 makes `issue370_comparison.png` and `issue370_perparticle.png`.
+
+## Axis chart-switch validation (113-114)
+
+Runs 113 (Boozer) and 114 (canonical) repeat 100 and 105 with the
+orbit-level fix from itpplasma/SIMPLE#384: a converged negative radius
+commits the chart switch (r, theta) to (|r|, theta + pi) instead of the
+historic teleport to r = 0.01. Confined fraction at 0.01 s moves from
+0.679 to 0.689 (Boozer) and 0.682 to 0.691 (canonical) with prompt
+losses unchanged; 10 of the 51 symplectic-only losses are rescued, none
+added. The rest of the gap to RK (0.729) tracks the near-axis field
+data quality (run 110 vs 112 above), not the integrator.

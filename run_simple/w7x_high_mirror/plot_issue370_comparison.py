@@ -66,6 +66,10 @@ def panel_b(ax):
                "RK, booz_xform chartmap", color="tab:gray")
     maybe_plot(ax, "112-chartmap_simple_sympl",
                "sympl, SIMPLE-export chartmap", color="black", ls="--")
+    maybe_plot(ax, "113-sympl_boozer_mh5_ns3_axisfix",
+               "sympl, axis chart switch (PR 384)", color="tab:green", lw=2, ls="--")
+    maybe_plot(ax, "114-sympl_canonical_mh5_ns3_axisfix",
+               "sympl canonical, axis chart switch", color="tab:purple", ls="--")
     maybe_plot(ax, "101-rk_boozer_relerr_1e-12_mh5_ns3", "RK Boozer 1e-12",
                color="tab:blue", lw=2)
     ax.set_title("Near-axis clamp and same-field (chartmap) cross-checks")
