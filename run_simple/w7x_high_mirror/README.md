@@ -115,3 +115,7 @@ historic teleport to r = 0.01. Confined fraction at 0.01 s moves from
 losses unchanged; 10 of the 51 symplectic-only losses are rescued, none
 added. The rest of the gap to RK (0.729) tracks the near-axis field
 data quality (run 110 vs 112 above), not the integrator.
+`plot_losses_vs_time_fixed_start.py` renders these runs in the same
+lost-fraction convention as the contributed
+`confined_fraction_plot.png`, to
+`confined_fraction_plot_fixed_start.png`.
